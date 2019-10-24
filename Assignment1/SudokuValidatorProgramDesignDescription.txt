@@ -1,0 +1,29 @@
+Sudoku Validator Program Design Description
+Jin Jung
+10/23/2019
+CPSC 380 
+Professor Hansen
+-------------------------------------------
+
+The Design of this program is as follows:
+
+The main thread takes in the filename of the testfile and instantiates a SudokuCheck class. The SudokuCheck class 
+reads in the data in initializes 9x9 integer matrices that correspond to the test file. It is in this instance of
+The SudokuCheck class that necessary variable with relevant information are accessed and modified in order to deliver
+an accurate solution. Thus, some of the member varibles of the SodukuChecker object are shared memory.
+The main thread then creates 3 helper threads to analyze the data. 
+1. The CheckRow thread searches for duplicate values
+and missing values in each row and updates int[9][9] rowdup and int[9][9] rowmv variables for future analysis.
+2. The CheckColumn thread searches for duplicate values and missing values in each column and updates int[9][9] columndup
+and int[9][9] columnmv varaibles for future analysis.
+3. The checkSubGrid thread is the only threat that modifies the solution int[9][9] matrix. This helper thread continuously
+checks for solved subgrids and calls the method findSolution() until other threads have updated the necessary data
+for the findSolution() method to successfully find the solution. When the boolean goodSubgrids[9] values are all true
+This thread reaches the end of its execution and the main thread is able to join the 3 helper threads.
+
+The main thread then displays the results to the terminal and the program ends.
+
+Why 3 threads were used: Initially, I had the program outputting the correct solution with only 2 helper threads that each
+checked the rows and columns for duplicate and missing values. I decided a third helper thread is nice to have in terms
+of redundancy that the first two helper threads are actually providing correct data. The third thread is also helpful
+in confirming that all threads have completed executing before joining with the main thread. 
